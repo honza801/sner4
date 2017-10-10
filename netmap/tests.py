@@ -25,15 +25,10 @@ class NetMapTest(unittest.TestCase):
 	    ip_first = "%s::1" % (ip)
 	    ip_last = "%s::ffff" % (ip)
 	
-        organization = ''.join( \
-                         random.choice(string.lowercase) for x in range \
-                         (Net._meta.get_field('organization').max_length))
-        description = ''.join(  \
-                            random.choice(string.lowercase) for x in range \
-                            (Net._meta.get_field('description').max_length))
-        note = ''.join( \
-                            random.choice(string.lowercase) for x in range \
-                            (Net._meta.get_field('note').max_length))
+	random_lc = lambda x: random.choice(string.lowercase) + (random_lc(x-1) if x > 1 else '')
+        organization = random_lc(Net._meta.get_field('organization').max_length)
+        description = random_lc(Net._meta.get_field('description').max_length)
+        note = random_lc(Net._meta.get_field('note').max_length)
 
         return Net( cidr=cidr, ip_first=ip_first, ip_last=ip_last, \
                     organization=organization, description=description, \
